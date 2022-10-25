@@ -1,0 +1,59 @@
+{% extends 'applications/base.html' %}
+
+{% block content %}
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">{{ title }}</h1>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>
+                        Продукта
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Категория</th>
+                                    <th>Цвет девайса</th>
+                                    <th>Название</th>
+                                    <th>Размер памяти</th>
+                                    <th>Количество на складе</th>
+                                    <th>Цена</th>
+                                    <th>В корзину</th>
+
+                                </tr>
+                                <tbody>
+                               {% for product in products %}
+                                    <tr>
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.color }}</td>
+                                        <td>{{ product.model }}</td>
+                                        <td>{{ product.memory_size}}</td>
+                                        <td>{{ product.quantity}}</td>
+                                        <td>{{ product.price}}</td>
+                                        <td><form action="{% url 'cart:cart_add' product.id %}" method="post">
+
+                                            {% csrf_token %}
+                                             <input class="btn btn-success btn-block" type="submit" value="Добавить">
+                                            {{ cart_product_form }}
+                                        </form></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+
+            </div>
+        </footer>
+    </div>
+
+{% endblock %}

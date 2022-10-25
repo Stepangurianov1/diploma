@@ -1,0 +1,49 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link href="{% static  'css/index.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h1 class="mt-5">Портал Теле2</h1>
+                        <p>
+                            Добро пожаловать на портал Теле2, вы можете оформить заявку на участие в нашей компании
+                        </p>
+                    {% if user.is_authenticated %}
+                    {%if request.user.user_role == 'Сотрудник' or request.user.user_role == 'Дилер'  %}
+                    <button id="start-purchase-btn" type="button" class="btn btn-lg">
+                        <a id="start-purchase-link" href="{% url 'applications:applications_read' %}">
+                            Мои заявки
+                        </a>
+                    </button>
+                    {%endif%}
+                    {%if request.user.user_role == 'Дилер'  %}
+                    <button id="start-purchase-btn" type="button" class="btn btn-lg">
+                        <a id="start-purchase-link" href="{% url 'mainapp:products' %}">
+                            Услуги
+                        </a>
+                    </button>
+                    {%endif%}
+                    {%if request.user.user_role == 'Пользователь'  %}
+                    <button id="start-purchase-btn" type="button" class="btn btn-lg">
+                        <a id="start-purchase-link" href="{% url 'applications:user_read_product' %}">
+                            Покупки
+                        </a>
+                    </button>
+                    {%endif%}
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+    </section>
+<footer style="position:fixed; bottom:0; width:2000px" class="py-5 bg-dark">
+        <div class="container" >
+            <p class="m-0 text-center text-white">Copyright &copy; Портал Теле2</p>
+        </div>
+</footer>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'applications/base.html' %}
+
+{% block content %}
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">{{ title }}</h1>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>
+                        Продукта
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Имя дилера</th>
+                                    <th>Грород</th>
+                                    <th>Подробнее</th>
+                                </tr>
+                                <tbody>
+                                {% for product in products %}
+                                    <tr>
+                                        <td>{{ product.user_name }}</td>
+                                        <td>{{ product.city }}</td>
+                                        <td><a href="{% url 'applications:user_bye_product' product.user_name product.city%}">Подробнее</a></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+
+            </div>
+        </footer>
+    </div>
+
+{% endblock %}

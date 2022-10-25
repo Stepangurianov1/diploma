@@ -1,0 +1,20 @@
+<div class="card_add_basket">
+    <div class="row">
+        {% for product in products %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <a href="#">
+
+                    </a>
+                    <div class="card-body">
+                        <h4 class="card-title" style="text-align:center">
+                            <a href="{% url 'mainapp:detail' product.id %}">{{ product.name }}</a>
+                        </h4>
+                        <h5 style="text-align:center"> цена улуги - {{ product.price }} руб.</h5>
+                    </div>
+
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

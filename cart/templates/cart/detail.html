@@ -1,0 +1,91 @@
+{% extends 'applications/base.html' %}
+
+{% block content %}
+    <div id="layoutSidenav_content">
+
+        <main>
+            {% if form.non_field_errors  or messages %}
+              <div class="alert {% if messages %} alert-success {% else %} alert-warning {% endif %}alert-dismissible fade show" role="alert"
+                 style="margin-top: 50px;">
+
+                {% if messages %}
+                    {% for mes in messages %}
+                        {{ mes }}
+                    {% endfor %}
+                {% else %}
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+            <div class="container-fluid">
+                <h1 class="mt-4">Корзина</h1>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>
+                        Продукта
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Картинка</th>
+                                    <th>Продукт</th>
+                                    <th>Количество</th>
+                                    <th>Удалить</th>
+                                    <th>Стоимость продукта</th>
+                                    <th>Итоговая стоимость</th>
+
+                                </tr>
+                                <tbody>
+                                {% for item in cart %}
+                                    {% with product=item.product %}
+                                    <tr>
+                                        <td> Картинка </td>
+                                        <td>{{ product.model }}</td>
+                                        <td><form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                            {{ item.update_quantity_form.quantity }}
+                                            {{ item.update_quantity_form.update }}
+                                            <input type="submit" value="Обновить ">
+                                            {% csrf_token %}
+                                        </form></td>
+                                        <td><a href="{% url 'cart:cart_remove' product.id %}">Удалить</a></td>
+                                        <td class="num">${{ item.price }}</td>
+                                        <td class="num">${{ item.total_price }}</td>
+                                    </tr>
+                                    {% endwith %}
+                                {% endfor %}
+                            <tr class="total">
+                            <td>Total</td>
+                            <td colspan="4"></td>
+                                <td class="num">${{ cart.get_total_price }}</td>
+                            </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <p class="text-right">
+                        {%if request.user.user_role == 'Пользователь'%}
+                            <a href="{% url 'applications:user_read_product'  %}" class="button light">Вернуться к выбору товара</a>
+                        {%else%}
+                            <a href="{% url 'applications:bye_product_read'  %}" class="button light">Вернуться к выбору товара</a>
+                        {%endif%}
+
+
+                    <form action="{% url 'orders:order_create' %}" method="post" class="button">
+
+                    <p><input type="submit" class="button" value="Купить"></p>
+                    {% csrf_token %}
+                    </form>
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+{% endblock %}

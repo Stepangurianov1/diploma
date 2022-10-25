@@ -1,0 +1,42 @@
+{% extends 'applications/base.html' %}
+
+{% block content %}
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+
+                {%for application in applications%}
+                <h1 class="mt-4"> Вым одобрили заявку! Вы можете преобрести товар по заявке "{{application.name}}" </h1>
+                <form action="{% url 'applications:product_bye' application.id%}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="small mb-1" for=" {{ form.name.id_for_label }}">Название товара</label>
+                               {{ form.model}}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                            <label class="small mb-1" for="{{ form.cuty.id_for_label }}">количество</label>
+                           {{ form.quantity }}
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-lg-12" style="margin-top: 33px;">
+                            <input class="btn btn-info btn-block" type="submit" value="Сохранить">
+                        </div>
+                    </div>
+                </form>
+                {%endfor%}
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+
+            </div>
+        </footer>
+    </div>
+{% endblock %}

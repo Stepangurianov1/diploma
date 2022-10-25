@@ -1,0 +1,92 @@
+{% extends 'applications/base.html' %}
+
+{% block content %}
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">{{ title }}</h1>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>
+                        Продукта
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Имя дилера</th>
+                                    <th>Тема заявки</th>
+                                    <th>Грород дилера</th>
+                                    <th>Описание</th>
+                                    <th>Статус</th>
+                                    <th>Удалить</th>
+                                    <th>Изменить</th>
+
+                                </tr>
+                                <tbody>
+                                {% for application in applications %}
+                                    <tr>
+                                        <td>{{ application.user_name }}</td>
+                                        <td>{{ application.name }}</td>
+                                        <td>{{ application.city }}</td>
+                                        <td>{{ application.description }}</td>
+                                        <td>
+                                            {% if request.user.user_role != 'Сотрудник' and application.is_active == 'Одобрено' %}
+                                                <a href="{% url 'applications:bye_product_read' %}">{{ application.is_active }}</a>
+<!--                                                <a href="{% url 'applications:product_bye' application.id %}">{{ application.is_active }}</a>-->
+                                            {% else%}
+                                                {{ application.is_active }}
+                                            {%endif%}
+                                        </td>
+                                        <td>
+                                            {% if request.user.user_role == 'Сотрудник'%}
+
+                                            <form action="{% url 'applications:applications_update_status1' application.id %}" method="post">
+                                                {% csrf_token %}
+                                                <input class="btn btn-danger btn-block" type="submit" value="Отказать">
+                                            </form>
+                                            {%else%}
+                                            <form action="{% url 'applications:applications_delete' application.id %}" method="post">
+                                                {% csrf_token %}
+                                                <input class="btn btn-danger btn-block" type="submit" value="Удалить">
+                                            </form>
+                                            {%endif%}
+                                        </td>
+                                        <td>
+                                            {% if request.user.user_role == 'Сотрудник'%}
+                                            <form action="{% url 'applications:applications_update_status2' application.id %}" method="post">
+                                                {% csrf_token %}
+                                                <input class="btn btn-success btn-block" type="submit" value="Одобрить">
+                                            </form>
+                                            {%else%}
+                                            <a href="{% url 'applications:applications_update' application.id %}">
+                                                <input class="btn btn-success btn-block" type="submit" value="Изменить">
+                                            </a>
+                                            {%endif%}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% if request.user.user_role != 'Сотрудник'%}
+                    <div class="card-footer">
+                        <a href="{% url 'applications:applications_create' %}">
+                            <button class="btn btn-success">Сформировать заявку</button>
+                        </a>
+                    </div>
+                    {%endif%}
+                </div>
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+
+            </div>
+        </footer>
+    </div>
+
+{% endblock %}

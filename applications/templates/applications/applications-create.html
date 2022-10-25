@@ -1,0 +1,45 @@
+{% extends 'applications/base.html' %}
+
+{% block content %}
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">Формирование заявки</h1>
+                <form action="{% url 'applications:applications_create' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="small mb-1" for=" {{ form.name.id_for_label }}">Тема заявки</label>
+                               {{ form.name }}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="small mb-1" for="{{ form.description.id_for_label }}">Описание</label>
+                                {{ form.description }}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                            <label class="small mb-1" for="{{ form.cuty.id_for_label }}">Город</label>
+                           {{ form.city }}
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-lg-12" style="margin-top: 33px;">
+                            <input class="btn btn-info btn-block" type="submit" value="Сохранить">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+
+            </div>
+        </footer>
+    </div>
+{% endblock %}

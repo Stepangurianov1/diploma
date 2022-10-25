@@ -1,0 +1,47 @@
+<div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">Приложения</div>
+                    {% if request.user.user_role == 'Дилер' or request.user.user_role == 'Сотрудник'%}
+                    <a class="nav-link" href="{% url 'applications:applications_read' %}">
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        Мои заявки
+                    </a>
+                    {%endif%}
+                    {% if request.user.user_role == 'Пользователь'%}
+                    <a class="nav-link" href="{% url 'applications:product_read' %}">
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        Мои покуки
+                    </a>
+                    <a class="nav-link" href="{% url 'applications:user_read_product' %}">
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        Заказать товар
+                    </a>
+                    {%endif%}
+                    {% if request.user.user_role == 'Дилер'%}
+                    <a class="nav-link" href="{% url 'applications:product_read' %}">
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        Мой склад
+                    </a>
+
+                    <a class="nav-link" href="{% url 'mainapp:products' %}">
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        Все заявки
+                    </a>
+                    {%endif%}
+                </div>
+            </div>
+            <div class="sb-sidenav-footer"></div>
+        </nav>
+    </div>
